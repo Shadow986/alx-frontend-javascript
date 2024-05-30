@@ -1,27 +1,32 @@
-import Building from './4-building.js';
+import Currency from './3-currency';
 
-export default class Tower extends Building {
-  constructor(sqft, floors) {
-    super(sqft);
-    if (typeof floors !== 'number') {
-      throw TypeError('floors must be a number');
-    }
-
-    this._floors = floors;
+export default class Pricing {
+  constructor(amount, currency) {
+    this.amount = amount;
+    this.currency = currency;
   }
 
-  get floors() {
-    return this._floors;
+  set currency(value) {
+    if (value instanceof Currency) this._currency = value;
   }
 
-  set floors(newFloors) {
-    if (typeof newFloors !== 'number') {
-      throw TypeError('floors must be a number');
-    }
-    this._floors = newFloors;
+  get currency() {
+    return this._currency;
   }
 
-  evacuationWarningMessage() {
-    return `You need to evacuate the ${this._floors} floors building in case of emergency.`;
+  set amount(value) {
+    if (typeof value === 'number') this._amount = value;
+  }
+
+  get amount() {
+    return this._amount;
+  }
+
+  displayFullPrice() {
+    return `${this._amount} ${this._currency.displayFullCurrency()}`;
+  }
+
+  static convertPrice(amount, conversionRate) {
+    return amount * conversionRate;
   }
 }
